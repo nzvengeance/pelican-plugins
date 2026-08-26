@@ -38,7 +38,7 @@ class ImportValidator
         if (! isset($docData['uuid']) || ! is_string($docData['uuid']) || $docData['uuid'] === '') {
             $errors[] = 'Missing or invalid uuid';
         } elseif (! preg_match(self::UUID_PATTERN, $docData['uuid'])) {
-            $errors[] = 'Invalid UUID format: '.$docData['uuid'];
+            $errors[] = 'Invalid UUID format: ' . $docData['uuid'];
         }
 
         if (! isset($docData['title']) || ! is_string($docData['title']) || $docData['title'] === '') {
@@ -58,7 +58,7 @@ class ImportValidator
 
         // Content type validation
         if (isset($docData['content_type']) && ! in_array($docData['content_type'], self::VALID_CONTENT_TYPES, true)) {
-            $errors[] = 'Invalid content_type: '.$docData['content_type'].' (must be html, markdown, or raw_html)';
+            $errors[] = 'Invalid content_type: ' . $docData['content_type'] . ' (must be html, markdown, or raw_html)';
         }
 
         // Boolean fields

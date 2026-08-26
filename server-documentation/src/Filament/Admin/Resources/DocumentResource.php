@@ -154,9 +154,9 @@ class DocumentResource extends Resource
                             $type = $get('content_type') ?? request()->query('type', 'html');
 
                             return new HtmlString(match ($type) {
-                                'markdown' => '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">'.e(trans('server-documentation::strings.form.markdown')).'</span>',
-                                'raw_html' => '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">'.e(trans('server-documentation::strings.form.raw_html')).'</span>',
-                                default => '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">'.e(trans('server-documentation::strings.form.rich_text')).'</span>',
+                                'markdown' => '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">' . e(trans('server-documentation::strings.form.markdown')) . '</span>',
+                                'raw_html' => '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">' . e(trans('server-documentation::strings.form.raw_html')) . '</span>',
+                                default => '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">' . e(trans('server-documentation::strings.form.rich_text')) . '</span>',
                             });
                         })
                         ->columnSpanFull(),
@@ -175,8 +175,8 @@ class DocumentResource extends Resource
 
                             foreach ($variables as $var => $description) {
                                 $html .= '<div class="flex items-start gap-2">';
-                                $html .= '<code class="text-xs bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded whitespace-nowrap">'.e($var).'</code>';
-                                $html .= '<span class="text-xs text-gray-600 dark:text-gray-400">'.e($description).'</span>';
+                                $html .= '<code class="text-xs bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded whitespace-nowrap">' . e($var) . '</code>';
+                                $html .= '<span class="text-xs text-gray-600 dark:text-gray-400">' . e($description) . '</span>';
                                 $html .= '</div>';
                             }
 
@@ -274,7 +274,7 @@ class DocumentResource extends Resource
                                     };
 
                                     if (empty($content)) {
-                                        return new HtmlString('<p class="text-gray-500 italic">'.e(trans('server-documentation::strings.form.content_preview_empty')).'</p>');
+                                        return new HtmlString('<p class="text-gray-500 italic">' . e(trans('server-documentation::strings.form.content_preview_empty')) . '</p>');
                                     }
 
                                     $processor = app(\Starter\ServerDocumentation\Services\VariableProcessor::class);

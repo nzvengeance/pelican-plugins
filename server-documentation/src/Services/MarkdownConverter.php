@@ -82,7 +82,7 @@ class MarkdownConverter
         // 4. Remove dangerous URL schemes
         $dangerousSchemes = ['javascript:', 'vbscript:', 'data:text/html', 'data:application'];
         foreach ($dangerousSchemes as $scheme) {
-            $html = preg_replace('/'.preg_quote($scheme, '/').'/i', '', $html) ?? $html;
+            $html = preg_replace('/' . preg_quote($scheme, '/') . '/i', '', $html) ?? $html;
         }
 
         // 5. Remove SVG-based XSS vectors
@@ -113,8 +113,8 @@ class MarkdownConverter
     {
         $codeBlocks = [];
         $html = preg_replace_callback('/<pre[^>]*><code[^>]*>(.*?)<\/code><\/pre>/is', function ($matches) use (&$codeBlocks) {
-            $placeholder = '{{CODE_BLOCK_'.count($codeBlocks).'}}';
-            $codeBlocks[$placeholder] = "```\n".html_entity_decode(strip_tags($matches[1]))."\n```";
+            $placeholder = '{{CODE_BLOCK_' . count($codeBlocks) . '}}';
+            $codeBlocks[$placeholder] = "```\n" . html_entity_decode(strip_tags($matches[1])) . "\n```";
 
             return $placeholder;
         }, $html) ?? $html;
@@ -151,7 +151,7 @@ class MarkdownConverter
             $content = strip_tags($matches[1]);
             $lines = explode("\n", trim($content));
 
-            return "\n".implode("\n", array_map(fn ($line) => '> '.trim($line), $lines))."\n";
+            return "\n" . implode("\n", array_map(fn ($line) => '> ' . trim($line), $lines)) . "\n";
         }, $html) ?? $html;
 
         $html = preg_replace_callback('/<ul[^>]*>(.*?)<\/ul>/is', function ($matches) {
@@ -242,14 +242,14 @@ class MarkdownConverter
             return $result;
         }
 
-        $result .= '| '.implode(' | ', $headers)." |\n";
-        $result .= '| '.implode(' | ', array_fill(0, count($headers), '---'))." |\n";
+        $result .= '| ' . implode(' | ', $headers) . " |\n";
+        $result .= '| ' . implode(' | ', array_fill(0, count($headers), '---')) . " |\n";
 
         foreach ($rows as $row) {
             while (count($row) < count($headers)) {
                 $row[] = '';
             }
-            $result .= '| '.implode(' | ', $row)." |\n";
+            $result .= '| ' . implode(' | ', $row) . " |\n";
         }
 
         return $result;
@@ -288,7 +288,7 @@ class MarkdownConverter
     {
         $filename = ! empty($slug) ? $slug : $this->sanitizeFilename($title);
 
-        return $filename.'.md';
+        return $filename . '.md';
     }
 
     /**
@@ -316,7 +316,7 @@ class MarkdownConverter
 
         $yaml = Yaml::dump($metadata, 2, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
 
-        return "---\n".$yaml."---\n\n".$markdown;
+        return "---\n" . $yaml . "---\n\n" . $markdown;
     }
 
     /**

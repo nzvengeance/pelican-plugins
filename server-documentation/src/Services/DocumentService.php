@@ -132,7 +132,7 @@ class DocumentService
             };
         }
 
-        return empty($parts) ? 'Updated' : 'Updated '.implode(', ', $parts);
+        return empty($parts) ? 'Updated' : 'Updated ' . implode(', ', $parts);
     }
 
     /**
@@ -254,7 +254,7 @@ class DocumentService
                 $document,
                 $document->title,
                 $document->content,
-                'Restored from version '.$version->version_number,
+                'Restored from version ' . $version->version_number,
                 $userId
             );
         });

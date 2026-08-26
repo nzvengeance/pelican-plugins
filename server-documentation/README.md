@@ -9,8 +9,10 @@ A documentation management plugin for [Pelican Panel](https://pelican.dev) that 
 [![Download Latest Release](https://img.shields.io/github/v/release/gavinmcfall/pelican-plugins?label=Download&style=for-the-badge&color=blue)](https://github.com/gavinmcfall/pelican-plugins/releases/latest/download/server-documentation.zip)
 
 ### Requirements
-- Pelican Panel v1.0.0-beta31+
-- PHP 8.2+
+- Pelican Panel v1.0.0-beta34 or newer (Laravel 13 / Filament 5)
+- PHP 8.3+
+
+The plugin declares `panel_version: ^1.0.0-beta34`, so older panels list it as *Incompatible* instead of loading it.
 
 ### Install via Admin Panel (Recommended)
 
@@ -25,12 +27,11 @@ A documentation management plugin for [Pelican Panel](https://pelican.dev) that 
 # Copy plugin to plugins directory
 cp -r server-documentation /var/www/html/plugins/
 
-# Run migrations
-php artisan migrate
-
-# Publish CSS assets (required for document styling)
-php artisan vendor:publish --tag=server-documentation-assets
+# Install it (runs migrations and enables the plugin)
+php artisan p:plugin:install server-documentation
 ```
+
+CSS/JS assets are copied into `public/plugins/server-documentation/` automatically when the panel boots. `php artisan vendor:publish --tag=server-documentation-assets` still works if you prefer to publish them explicitly.
 
 > **Note**: This plugin has no external composer dependencies - it uses Pelican's bundled packages only.
 
@@ -38,36 +39,25 @@ php artisan vendor:publish --tag=server-documentation-assets
 
 ## Updating to a New Version
 
-> **⚠️ Important**: Pelican does not allow uploading over an existing plugin. Choose the method that works for your setup:
+Your documents stay in the database during every update path below — nothing needs exporting first. (Taking an **Export JSON** backup before any upgrade is still a good habit.)
 
-### Method 1: Export/Import (Recommended - No SSH Required)
+### Method 1: Update button (Recommended)
 
-**Fully UI-based workflow** - works for all users:
+The plugin publishes an `update_url`, so Pelican checks for new releases on its own.
 
-1. **Export your documents**
-   - Go to **Admin → Documents** in Pelican Panel
-   - Click **Export JSON** button in the top-right
-   - Save the JSON backup file
+1. Go to **Admin → Plugins**
+2. When a newer version is available, click **Update** next to Server Documentation
+3. Pelican downloads the release, replaces the plugin files and runs any new migrations in the background
 
-2. **Uninstall old version**
-   - Go to **Admin → Plugins**
-   - Click **Uninstall** next to Server Documentation
-   - ⚠️ This deletes documents from database (but you have the backup!)
+### Method 2: Upload the new zip
 
-3. **Install new version**
-   - Download `server-documentation.zip` from the [latest release](https://github.com/gavinmcfall/pelican-plugins/releases/latest)
-   - Go to **Admin → Plugins → Upload**
-   - Select the zip file and install
+Uploading a plugin with the same id replaces the installed copy in place (Pelican keeps a rollback until the new files are in position).
 
-4. **Import your documents**
-   - Go to **Admin → Documents**
-   - Click **Import JSON** button
-   - Upload the backup file from step 1
-   - All documents, versions, and settings are restored!
+1. Download `server-documentation.zip` from the [latest release](https://github.com/gavinmcfall/pelican-plugins/releases/latest)
+2. Go to **Admin → Plugins → Import** and upload it
+3. Click **Install** if prompted so new migrations run
 
-### Method 2: Manual File Replacement (Requires SSH)
-
-**For users with server access** - no data loss risk:
+### Method 3: Manual File Replacement (SSH)
 
 ```bash
 # 1. SSH into your Pelican server
@@ -78,12 +68,11 @@ wget https://github.com/gavinmcfall/pelican-plugins/releases/latest/download/ser
 unzip -o server-documentation.zip
 rm server-documentation.zip
 
-# 3. Clear caches
+# 3. Run new migrations and clear caches
 cd /var/www/html
+php artisan p:plugin:update server-documentation
 php artisan optimize:clear
 ```
-
-Your documents stay in the database - only plugin code is replaced.
 
 ---
 
@@ -91,7 +80,7 @@ Your documents stay in the database - only plugin code is replaced.
 
 > **⚠️ IMPORTANT: Read this section carefully if you have existing documents you want to keep!**
 
-Version 1.1.0+ includes database schema changes. Use one of these methods to preserve your documents:
+Version 1.1.0+ includes database schema changes, and v1.0.x predates Pelican's in-place plugin update. Use one of these methods to preserve your documents:
 
 ### Method 1: Export/Import (Recommended)
 
@@ -279,6 +268,12 @@ Document visibility is controlled by two independent dimensions:
 
 Root admins always see all published documents on visible servers, regardless of role/user restrictions.
 
+### Admin Panel Permissions (who can manage documents)
+
+Managing documents in the admin panel is separate from seeing them on a server. The plugin registers a **Document** group in **Admin → Roles** with the standard `viewList`, `view`, `create`, `update` and `delete` permissions. Grant those to any role that should manage documentation; Root Admins always have full access.
+
+> Upgrading from v1.1.x? Document management used to be inherited from the `update server` / `create server` permissions. That inheritance is gone — grant the **Document** permissions to the relevant roles after upgrading.
+
 ---
 
 ## Backup & Restore
@@ -396,9 +391,6 @@ SERVER_DOCS_AUTO_PRUNE=false           # Auto-prune old versions on save
 SERVER_DOCS_MAX_IMPORT_SIZE=512        # Max markdown import file size (KB)
 SERVER_DOCS_ALLOW_HTML_IMPORT=false    # Allow raw HTML in imports (security risk)
 
-# Permissions
-SERVER_DOCS_EXPLICIT_PERMISSIONS=false # Require explicit document permissions
-
 # Audit Logging
 SERVER_DOCS_AUDIT_LOG_CHANNEL=single   # Log channel for audit events
 ```
@@ -411,32 +403,30 @@ This plugin has been tested with the official Pelican Docker image in Kubernetes
 
 **Important considerations:**
 
-1. **Plugin Directory**: Store plugins in a persistent volume at `/pelican-data/plugins/`
+1. **Plugin Directory**: The official `compose.yml` mounts the `pelican-data` volume at `/var/www/html/plugins`. In Kubernetes, keep plugins on a persistent volume (this guide uses `/pelican-data/plugins/`)
 
-2. **CSS Assets**: Publish to the public directory on container startup:
+2. **CSS Assets**: The plugin copies its assets into `public/plugins/server-documentation/` on boot. If `public/` is not writable at runtime, publish them on container startup instead:
    ```bash
    mkdir -p /var/www/html/public/plugins/server-documentation/css/
    cp /pelican-data/plugins/server-documentation/resources/css/* \
       /var/www/html/public/plugins/server-documentation/css/
    ```
 
-3. **Migrations**: Run after installation:
+3. **Install**: Migrations are only registered for installed plugins, so use the plugin command rather than `artisan migrate`:
    ```bash
-   php artisan migrate --force
+   php artisan p:plugin:install server-documentation
    ```
 
 4. **Cache**: Clear after updates:
    ```bash
-   php artisan cache:clear
-   php artisan view:clear
    php artisan optimize:clear
    ```
 
-**Example Kubernetes init container:**
+**Example Kubernetes init container** (use the panel tag you run — `latest` is what the official `compose.yml` uses):
 ```yaml
 initContainers:
   - name: setup-plugins
-    image: ghcr.io/pelican-dev/panel:v1.0.0-beta31
+    image: ghcr.io/pelican/panel:latest
     command:
       - /bin/sh
       - -c

@@ -48,7 +48,7 @@ class ServersRelationManager extends RelationManager
                 AttachAction::make()
                     ->preloadRecordSelect()
                     ->recordSelectSearchColumns(['name', 'uuid', 'uuid_short'])
-                    ->form(fn (AttachAction $action): array => [
+                    ->schema(fn (AttachAction $action): array => [
                         $action->getRecordSelect(),
                         TextInput::make('sort_order')
                             ->numeric()

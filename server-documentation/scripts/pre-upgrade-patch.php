@@ -27,7 +27,7 @@ $possibleRoots = [
 ];
 
 foreach ($possibleRoots as $root) {
-    if (file_exists($root.'/artisan') && file_exists($root.'/plugins')) {
+    if (file_exists($root . '/artisan') && file_exists($root . '/plugins')) {
         $pelicanRoot = $root;
         break;
     }
@@ -39,8 +39,8 @@ if (! $pelicanRoot) {
     exit(1);
 }
 
-$pluginPath = $pelicanRoot.'/plugins/server-documentation';
-$migrationsPath = $pluginPath.'/database/migrations';
+$pluginPath = $pelicanRoot . '/plugins/server-documentation';
+$migrationsPath = $pluginPath . '/database/migrations';
 
 if (! is_dir($migrationsPath)) {
     echo "ERROR: Server Documentation plugin not found at expected location.\n";
@@ -91,7 +91,7 @@ $skipped = 0;
 $errors = 0;
 
 foreach ($migrations as $filename => $config) {
-    $filepath = $migrationsPath.'/'.$filename;
+    $filepath = $migrationsPath . '/' . $filename;
 
     if (! file_exists($filepath)) {
         echo "SKIP: {$filename} (not found - may be a newer version)\n";
@@ -125,7 +125,7 @@ foreach ($migrations as $filename => $config) {
     }
 
     // Create backup
-    $backupPath = $filepath.'.bak';
+    $backupPath = $filepath . '.bak';
     if (! file_exists($backupPath)) {
         copy($filepath, $backupPath);
     }

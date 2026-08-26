@@ -23,7 +23,7 @@ class DocumentFactory extends Factory
             'uuid' => fake()->uuid(),
             'title' => fake()->sentence(4),
             'slug' => fake()->unique()->slug(3),
-            'content' => '<p>'.fake()->paragraphs(3, true).'</p>',
+            'content' => '<p>' . fake()->paragraphs(3, true) . '</p>',
             'is_global' => fake()->boolean(20),
             'is_published' => fake()->boolean(80),
             'sort_order' => fake()->numberBetween(0, 100),

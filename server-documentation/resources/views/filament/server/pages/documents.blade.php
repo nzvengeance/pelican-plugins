@@ -36,8 +36,7 @@
                 // Initial highlight
                 document.addEventListener('DOMContentLoaded', highlightCodeBlocks);
 
-                // Re-highlight when Livewire updates the DOM (document selection changes)
-                document.addEventListener('livewire:morph', highlightCodeBlocks);
+                // Re-highlight after SPA navigation; the MutationObserver below covers Livewire DOM updates
                 document.addEventListener('livewire:navigated', highlightCodeBlocks);
 
                 // Also use MutationObserver as fallback for dynamic content

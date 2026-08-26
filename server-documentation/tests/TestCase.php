@@ -20,6 +20,10 @@ class TestCase extends Orchestra
     /**
      * Define environment setup.
      *
+     * Mirrors what Pelican's PluginService::loadPlugins() does for an installed
+     * plugin: config, translations, views and migrations are registered by the
+     * panel, not by the plugin's own service provider.
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -31,15 +35,25 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+
+        $app['config']->set('server-documentation', require __DIR__ . '/../config/server-documentation.php');
+
+        $app->afterResolving('translator', function ($translator) {
+            $translator->addNamespace('server-documentation', __DIR__ . '/../lang');
+        });
+
+        $app->afterResolving('view', function ($view) {
+            $view->addNamespace('server-documentation', __DIR__ . '/../resources/views');
+        });
     }
 
     protected function defineDatabaseMigrations()
     {
         // Load mock migrations first to ensure base tables like 'roles' exist
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         // Then load the plugin's actual migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     /**
@@ -51,9 +65,9 @@ class TestCase extends Orchestra
     {
         return [
             // Path to your package's factories
-            __DIR__.'/database/factories',
+            __DIR__ . '/database/factories',
             // Path to app's mock factories
-            __DIR__.'/app/Models',
+            __DIR__ . '/app/Models',
         ];
     }
 
