@@ -503,7 +503,7 @@ class Document extends Model
         }
 
         // Fallback: append UUID fragment for guaranteed uniqueness
-        return $originalSlug.'-'.substr(Str::uuid()->toString(), 0, 8);
+        return $originalSlug . '-' . substr(Str::uuid()->toString(), 0, 8);
     }
 
     /**

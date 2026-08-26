@@ -93,7 +93,7 @@ class ListDocuments extends ListRecords
                 ->schema([
                     FileUpload::make('markdown_file')
                         ->label(trans('server-documentation::strings.import.file_label'))
-                        ->helperText(trans('server-documentation::strings.import.file_helper')." (max {$maxFileSize}KB)")
+                        ->helperText(trans('server-documentation::strings.import.file_helper') . " (max {$maxFileSize}KB)")
                         ->acceptedFileTypes(['text/markdown', 'text/plain', '.md'])
                         ->maxSize($maxFileSize)
                         ->required()
@@ -172,7 +172,7 @@ class ListDocuments extends ListRecords
         $originalSlug = $slug;
         $counter = 1;
         while (Document::where('slug', $slug)->exists()) {
-            $slug = $originalSlug.'-'.$counter++;
+            $slug = $originalSlug . '-' . $counter++;
         }
 
         $document = Document::create([
@@ -330,7 +330,7 @@ class ListDocuments extends ListRecords
             })->toArray(),
         ];
 
-        $filename = 'server-documentation-backup-'.now()->format('Y-m-d-His').'.json';
+        $filename = 'server-documentation-backup-' . now()->format('Y-m-d-His') . '.json';
 
         return response()->streamDownload(function () use ($exportData) {
             echo json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -397,7 +397,7 @@ class ListDocuments extends ListRecords
                 $errors = $validator->validate($docData);
                 if (! empty($errors)) {
                     $docId = $docData['uuid'] ?? $docData['title'] ?? "index {$index}";
-                    $warnings[] = "Skipped document ({$docId}): ".implode('; ', $errors);
+                    $warnings[] = "Skipped document ({$docId}): " . implode('; ', $errors);
                     $validationErrors++;
 
                     continue;
@@ -443,7 +443,7 @@ class ListDocuments extends ListRecords
                     $originalSlug = $slug;
                     $counter = 1;
                     while (Document::where('slug', $slug)->exists()) {
-                        $slug = $originalSlug.'-'.$counter++;
+                        $slug = $originalSlug . '-' . $counter++;
                     }
 
                     // Create new document
@@ -486,7 +486,7 @@ class ListDocuments extends ListRecords
             $notification->warning();
             // Log detailed warnings for admin review
             foreach ($warnings as $warning) {
-                \Illuminate\Support\Facades\Log::warning('[ServerDocs Import] '.$warning);
+                \Illuminate\Support\Facades\Log::warning('[ServerDocs Import] ' . $warning);
             }
         } else {
             $notification->success();

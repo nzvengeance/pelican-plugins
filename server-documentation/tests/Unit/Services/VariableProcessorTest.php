@@ -35,7 +35,7 @@ describe('process', function () {
         $content = 'Today is {{date}}';
         $result = $this->processor->process($content);
 
-        expect($result)->toBe('Today is '.$now->format('Y-m-d'));
+        expect($result)->toBe('Today is ' . $now->format('Y-m-d'));
     });
 
     it('replaces user variables', function () {

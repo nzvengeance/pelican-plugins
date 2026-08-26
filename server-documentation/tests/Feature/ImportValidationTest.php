@@ -356,9 +356,9 @@ describe('import relation resolution', function () {
     it('handles missing roles gracefully', function () {
         // Test that import with non-existent role names doesn't crash
         $docData = [
-            'uuid' => 'test-uuid-'.uniqid(),
+            'uuid' => 'test-uuid-' . uniqid(),
             'title' => 'Test',
-            'slug' => 'test-'.uniqid(),
+            'slug' => 'test-' . uniqid(),
             'content' => 'Content',
             'content_type' => 'html',
             'is_global' => false,

@@ -36,24 +36,24 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $app['config']->set('server-documentation', require __DIR__.'/../config/server-documentation.php');
+        $app['config']->set('server-documentation', require __DIR__ . '/../config/server-documentation.php');
 
         $app->afterResolving('translator', function ($translator) {
-            $translator->addNamespace('server-documentation', __DIR__.'/../lang');
+            $translator->addNamespace('server-documentation', __DIR__ . '/../lang');
         });
 
         $app->afterResolving('view', function ($view) {
-            $view->addNamespace('server-documentation', __DIR__.'/../resources/views');
+            $view->addNamespace('server-documentation', __DIR__ . '/../resources/views');
         });
     }
 
     protected function defineDatabaseMigrations()
     {
         // Load mock migrations first to ensure base tables like 'roles' exist
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         // Then load the plugin's actual migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     /**
@@ -65,9 +65,9 @@ class TestCase extends Orchestra
     {
         return [
             // Path to your package's factories
-            __DIR__.'/database/factories',
+            __DIR__ . '/database/factories',
             // Path to app's mock factories
-            __DIR__.'/app/Models',
+            __DIR__ . '/app/Models',
         ];
     }
 

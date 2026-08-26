@@ -46,8 +46,8 @@ class ServerDocumentationServiceProvider extends ServiceProvider
         $this->registerDocumentPermissionFallback();
 
         $this->publishes([
-            __DIR__.'/../../resources/css' => public_path('plugins/server-documentation/css'),
-            __DIR__.'/../../resources/js' => public_path('plugins/server-documentation/js'),
+            __DIR__ . '/../../resources/css' => public_path('plugins/server-documentation/css'),
+            __DIR__ . '/../../resources/js' => public_path('plugins/server-documentation/js'),
         ], 'server-documentation-assets');
 
         $this->autoPublishAssets();
@@ -75,8 +75,8 @@ class ServerDocumentationServiceProvider extends ServiceProvider
         ];
 
         foreach ($assets as $asset) {
-            $sourcePath = __DIR__.'/../../resources/'.$asset;
-            $publicPath = public_path('plugins/server-documentation/'.$asset);
+            $sourcePath = __DIR__ . '/../../resources/' . $asset;
+            $publicPath = public_path('plugins/server-documentation/' . $asset);
 
             if (! file_exists($sourcePath)) {
                 continue;
