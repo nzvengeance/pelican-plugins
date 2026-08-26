@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Starter\ServerDocumentation\Providers\ServerDocumentationServiceProvider;
@@ -24,7 +25,7 @@ class TestCase extends Orchestra
      * plugin: config, translations, views and migrations are registered by the
      * panel, not by the plugin's own service provider.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application  $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)

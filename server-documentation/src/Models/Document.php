@@ -8,7 +8,9 @@ use App\Models\Egg;
 use App\Models\Role;
 use App\Models\Server;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,16 +36,16 @@ use Starter\ServerDocumentation\Services\VariableProcessor;
  * @property int|null $author_id
  * @property int|null $last_edited_by
  * @property int $sort_order
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @property-read User|null $author
  * @property-read User|null $lastEditor
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Server> $servers
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Role> $roles
- * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Egg> $eggs
- * @property-read \Illuminate\Database\Eloquent\Collection<int, DocumentVersion> $versions
+ * @property-read Collection<int, Server> $servers
+ * @property-read Collection<int, Role> $roles
+ * @property-read Collection<int, User> $users
+ * @property-read Collection<int, Egg> $eggs
+ * @property-read Collection<int, DocumentVersion> $versions
  *
  * @method static Builder|Document published()
  * @method static Builder|Document global()

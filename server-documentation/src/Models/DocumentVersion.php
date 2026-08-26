@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Starter\ServerDocumentation\Models;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,8 +20,8 @@ use Starter\ServerDocumentation\Database\Factories\DocumentVersionFactory;
  * @property int $version_number
  * @property int|null $edited_by
  * @property string|null $change_summary
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Document $document
  * @property-read User|null $editor
  * @property-read string $formatted_version

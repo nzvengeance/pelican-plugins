@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Closure;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Starter\ServerDocumentation\Database\Factories\ServerFactory;
 
 class Server extends Model
 {
@@ -27,7 +29,7 @@ class Server extends Model
         {
             public function __construct()
             {
-                parent::__construct(new \Illuminate\Database\Query\Builder(new \Illuminate\Database\Connection(fn () => null)));
+                parent::__construct(new \Illuminate\Database\Query\Builder(new Connection(fn () => null)));
             }
 
             public function whereHas($relation, ?Closure $callback = null, $operator = '>=', $count = 1)
@@ -54,6 +56,6 @@ class Server extends Model
 
     public static function factory()
     {
-        return \Starter\ServerDocumentation\Database\Factories\ServerFactory::new();
+        return ServerFactory::new();
     }
 }

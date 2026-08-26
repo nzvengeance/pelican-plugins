@@ -13,6 +13,7 @@ use App\Traits\Filament\CanModifyTable;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
@@ -38,6 +39,7 @@ use Starter\ServerDocumentation\Filament\Concerns\HasDocumentTableColumns;
 use Starter\ServerDocumentation\Models\Document;
 use Starter\ServerDocumentation\Services\DocumentService;
 use Starter\ServerDocumentation\Services\MarkdownConverter;
+use Starter\ServerDocumentation\Services\VariableProcessor;
 
 class DocumentResource extends Resource
 {
@@ -140,7 +142,7 @@ class DocumentResource extends Resource
                 })->schema([
                     // Hidden field to store content_type
                     // Dynamic default reads from URL on create, database value takes precedence on edit
-                    \Filament\Forms\Components\Hidden::make('content_type')
+                    Hidden::make('content_type')
                         ->default(function () {
                             $type = request()->query('type', 'html');
 
@@ -164,7 +166,7 @@ class DocumentResource extends Resource
                     Placeholder::make('variables_reference')
                         ->label('')
                         ->content(function () {
-                            $variables = \Starter\ServerDocumentation\Services\VariableProcessor::getAvailableVariables();
+                            $variables = VariableProcessor::getAvailableVariables();
 
                             $html = '<details class="text-sm">';
                             $html .= '<summary class="cursor-pointer text-primary-600 dark:text-primary-400 hover:underline font-medium">';
@@ -277,7 +279,7 @@ class DocumentResource extends Resource
                                         return new HtmlString('<p class="text-gray-500 italic">' . e(trans('server-documentation::strings.form.content_preview_empty')) . '</p>');
                                     }
 
-                                    $processor = app(\Starter\ServerDocumentation\Services\VariableProcessor::class);
+                                    $processor = app(VariableProcessor::class);
                                     $converter = app(MarkdownConverter::class);
 
                                     // Process based on content type

@@ -1,6 +1,10 @@
 <?php
 
 declare(strict_types=1);
+use Illuminate\Cache\TaggableStore;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +18,12 @@ declare(strict_types=1);
 */
 
 uses(
-    Tests\TestCase::class,
-    Illuminate\Foundation\Testing\RefreshDatabase::class,
+    TestCase::class,
+    RefreshDatabase::class,
 )->in('Feature');
 
 uses(
-    Tests\TestCase::class,
+    TestCase::class,
 )->in('Unit');
 
 /*
@@ -66,9 +70,9 @@ function invokeMethod(object $object, string $method, array $args = []): mixed
 function cacheSupportsTagging(): bool
 {
     try {
-        $store = Illuminate\Support\Facades\Cache::getStore();
+        $store = Cache::getStore();
 
-        return $store instanceof Illuminate\Cache\TaggableStore;
+        return $store instanceof TaggableStore;
     } catch (Exception) {
         return false;
     }
