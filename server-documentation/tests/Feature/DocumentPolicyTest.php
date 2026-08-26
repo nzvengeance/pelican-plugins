@@ -279,23 +279,3 @@ describe('viewOnServer', function () {
         expect($this->policy->viewOnServer($user, $document, $server))->toBeTrue();
     });
 });
-
-describe('admin permission gates', function () {
-    it('allows users with server permissions to manage documents by default', function () {
-        $user = Mockery::mock(User::class);
-        $user->shouldReceive('can')->with('viewList document')->andReturn(true);
-        $user->shouldReceive('can')->with('create document')->andReturn(true);
-        $user->shouldReceive('can')->with('update document')->andReturn(true);
-
-        expect($user->can('viewList document'))->toBeTrue();
-        expect($user->can('create document'))->toBeTrue();
-        expect($user->can('update document'))->toBeTrue();
-    });
-
-    it('denies users without server permissions when explicit_permissions is false', function () {
-        $user = Mockery::mock(User::class);
-        $user->shouldReceive('can')->with('viewList document')->andReturn(false);
-
-        expect($user->can('viewList document'))->toBeFalse();
-    });
-});

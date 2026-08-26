@@ -26,9 +26,9 @@ describe('ServerDocumentationServiceProvider', function () {
         expect(Gate::getPolicyFor(DocumentVersion::class))->toBeInstanceOf(DocumentVersionPolicy::class);
     });
 
-    it('defines the permission fallback gates', function () {
+    it('leaves document abilities to the Role editor instead of defining fallback gates', function () {
         foreach (['viewList', 'view', 'create', 'update', 'delete'] as $prefix) {
-            expect(Gate::has("{$prefix} document"))->toBeTrue();
+            expect(Gate::has("{$prefix} document"))->toBeFalse();
         }
     });
 

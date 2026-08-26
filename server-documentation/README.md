@@ -270,15 +270,9 @@ Root admins always see all published documents on visible servers, regardless of
 
 ### Admin Panel Permissions (who can manage documents)
 
-Managing documents in the admin panel is separate from seeing them on a server. The plugin registers a **Document** group in **Admin → Roles** with the standard `viewList`, `view`, `create`, `update` and `delete` permissions, so you can grant document management to any role.
+Managing documents in the admin panel is separate from seeing them on a server. The plugin registers a **Document** group in **Admin → Roles** with the standard `viewList`, `view`, `create`, `update` and `delete` permissions. Grant those to any role that should manage documentation; Root Admins always have full access.
 
-For users without an explicit grant, access falls back to:
-
-| User | Result |
-|------|--------|
-| Root Admin | Always allowed |
-| Has `update server` or `create server` | Allowed (inherited) — unless `SERVER_DOCS_EXPLICIT_PERMISSIONS=true` |
-| Anyone else | Denied |
+> Upgrading from v1.1.x? Document management used to be inherited from the `update server` / `create server` permissions. That inheritance is gone — grant the **Document** permissions to the relevant roles after upgrading.
 
 ---
 
@@ -396,9 +390,6 @@ SERVER_DOCS_AUTO_PRUNE=false           # Auto-prune old versions on save
 # Import Settings
 SERVER_DOCS_MAX_IMPORT_SIZE=512        # Max markdown import file size (KB)
 SERVER_DOCS_ALLOW_HTML_IMPORT=false    # Allow raw HTML in imports (security risk)
-
-# Permissions
-SERVER_DOCS_EXPLICIT_PERMISSIONS=false # Require explicit document permissions
 
 # Audit Logging
 SERVER_DOCS_AUDIT_LOG_CHANNEL=single   # Log channel for audit events

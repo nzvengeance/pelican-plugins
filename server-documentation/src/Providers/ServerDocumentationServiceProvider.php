@@ -7,8 +7,6 @@ namespace Starter\ServerDocumentation\Providers;
 use App\Filament\Admin\Resources\Servers\ServerResource;
 use App\Models\Role;
 use App\Models\Server;
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Starter\ServerDocumentation\Filament\Admin\RelationManagers\DocumentsRelationManager;
 use Starter\ServerDocumentation\Models\Document;
@@ -36,15 +34,14 @@ class ServerDocumentationServiceProvider extends ServiceProvider
         ServerResource::registerCustomRelations(DocumentsRelationManager::class);
 
         // Adds a "document" group (viewList / view / create / update / delete) to the
-        // admin Role editor so document access can be granted per role.
+        // admin Role editor. This is the only way document management is granted;
+        // Root Admins are allowed everything by the panel itself.
         Role::registerCustomDefaultPermissions(Document::RESOURCE_NAME);
         Role::registerCustomModelIcon(Document::RESOURCE_NAME, 'tabler-file-text');
     }
 
     public function boot(): void
     {
-        $this->registerDocumentPermissionFallback();
-
         $this->publishes([
             __DIR__ . '/../../resources/css' => public_path('plugins/server-documentation/css'),
             __DIR__ . '/../../resources/js' => public_path('plugins/server-documentation/js'),
@@ -90,41 +87,6 @@ class ServerDocumentationServiceProvider extends ServiceProvider
             if (! file_exists($publicPath) || filemtime($sourcePath) > filemtime($publicPath)) {
                 copy($sourcePath, $publicPath);
             }
-        }
-    }
-
-    /**
-     * Fallback for document permissions that were not granted explicitly.
-     *
-     * A permission granted through the Role editor is resolved first (Pelican's
-     * permission layer answers in a Gate::before hook). When the user has no such
-     * grant, this gate decides:
-     * - Root Admins: always allowed
-     * - config('server-documentation.explicit_permissions') = true: denied
-     * - otherwise: inherited from the user's 'update server' / 'create server' permissions
-     */
-    protected function registerDocumentPermissionFallback(): void
-    {
-        $permissions = [
-            'viewList document',
-            'view document',
-            'create document',
-            'update document',
-            'delete document',
-        ];
-
-        foreach ($permissions as $permission) {
-            Gate::define($permission, function (User $user) {
-                if ($user->isRootAdmin()) {
-                    return true;
-                }
-
-                if (config('server-documentation.explicit_permissions', false)) {
-                    return false;
-                }
-
-                return $user->can('update server') || $user->can('create server');
-            });
         }
     }
 }

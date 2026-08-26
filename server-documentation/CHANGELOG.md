@@ -10,11 +10,15 @@ All notable changes to the Server Documentation plugin will be documented in thi
 
 Pelican moved to Laravel 13, Filament 5 and PHP 8.3 in beta34. This release targets that baseline and declares it via `panel_version` in `plugin.json`, so older panels list the plugin as Incompatible instead of loading it.
 
+### Upgrade note
+
+After upgrading, open **Admin → Roles** and grant the **Document** permissions to any role that should manage documentation. Non-root users lose access to the admin Documents area until you do.
+
 ### Changed
 
 - **Plugin-system alignment**: the service provider no longer registers config, translations, views, migrations, policies or Livewire components by hand — Pelican's plugin loader and Laravel's policy discovery already do this. The provider now only registers services, the `ServerResource` relation manager, role permissions, the `Server::documents` relation and asset publishing.
 - **Relation manager registration** moved from `boot()` to `register()`, which is when Filament collects Livewire components. This removes the need for the manual `Livewire::component` workaround.
-- **Role permissions**: `viewList / view / create / update / delete document` now appear as a "document" group in the admin Role editor. The previous behaviour (Root Admins always allowed; Server Admins inherit access unless `SERVER_DOCS_EXPLICIT_PERMISSIONS=true`) remains as the fallback for users without an explicit grant.
+- **Role permissions**: `viewList / view / create / update / delete document` now appear as a "Document" group in the admin Role editor, and that is the only way document management is granted (Root Admins keep full access). The old inheritance from `update server` / `create server` and the `SERVER_DOCS_EXPLICIT_PERMISSIONS` setting are removed.
 - **Updates**: `plugin.json` now publishes an `update_url`, so the panel's Update button works. `panels` is declared as `admin` and `server`.
 - **Livewire 4**: the admin preview uses `Livewire.interceptMessage` instead of the deprecated `Livewire.hook('commit')`; an inert `livewire:morph` listener was removed from the server page.
 - **Filament conventions**: `->schema()` replaces `->form()` on actions and `->recordActions()` replaces `->actions()` on the version history table, matching the panel's own code.
