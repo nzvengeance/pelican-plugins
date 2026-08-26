@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Starter\ServerDocumentation\Filament\Admin\Resources\DocumentResource;
 use Starter\ServerDocumentation\Filament\Concerns\HasDocumentTableColumns;
 use Starter\ServerDocumentation\Models\Document;
@@ -25,7 +26,7 @@ class DocumentsRelationManager extends RelationManager
 
     protected static string|\BackedEnum|null $icon = 'tabler-file-text';
 
-    public static function getTitle(\Illuminate\Database\Eloquent\Model $ownerRecord, string $pageClass): string
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
         return trans('server-documentation::strings.document.plural');
     }

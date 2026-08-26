@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Starter\ServerDocumentation\Services;
 
+use Illuminate\Support\Stringable;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
@@ -62,7 +63,7 @@ class MarkdownConverter
     public function sanitizeHtml(string $html): string
     {
         // Try Laravel's built-in sanitizer first (Laravel 10.35+)
-        if (method_exists(\Illuminate\Support\Stringable::class, 'sanitizeHtml')) {
+        if (method_exists(Stringable::class, 'sanitizeHtml')) {
             return (string) str($html)->sanitizeHtml();
         }
 

@@ -16,6 +16,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -486,7 +487,7 @@ class ListDocuments extends ListRecords
             $notification->warning();
             // Log detailed warnings for admin review
             foreach ($warnings as $warning) {
-                \Illuminate\Support\Facades\Log::warning('[ServerDocs Import] ' . $warning);
+                Log::warning('[ServerDocs Import] ' . $warning);
             }
         } else {
             $notification->success();

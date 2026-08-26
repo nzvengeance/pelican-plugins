@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Starter\ServerDocumentation\Database\Factories\RoleFactory;
 
 class Role extends Model
 {
@@ -23,7 +24,7 @@ class Role extends Model
 
     public static function factory()
     {
-        return \Starter\ServerDocumentation\Database\Factories\RoleFactory::new();
+        return RoleFactory::new();
     }
 
     /**

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
+use Starter\ServerDocumentation\Models\DocumentVersion;
 use Starter\ServerDocumentation\Policies\DocumentVersionPolicy;
 
 describe('DocumentVersionPolicy', function () {
@@ -31,23 +33,23 @@ describe('DocumentVersionPolicy', function () {
 
     it('denies create for manual version creation', function () {
         $policy = new DocumentVersionPolicy;
-        $user = Mockery::mock(\App\Models\User::class);
+        $user = Mockery::mock(User::class);
 
         expect($policy->create($user))->toBeFalse();
     });
 
     it('denies update for version immutability', function () {
         $policy = new DocumentVersionPolicy;
-        $user = Mockery::mock(\App\Models\User::class);
-        $version = Mockery::mock(\Starter\ServerDocumentation\Models\DocumentVersion::class);
+        $user = Mockery::mock(User::class);
+        $version = Mockery::mock(DocumentVersion::class);
 
         expect($policy->update($user, $version))->toBeFalse();
     });
 
     it('denies individual delete', function () {
         $policy = new DocumentVersionPolicy;
-        $user = Mockery::mock(\App\Models\User::class);
-        $version = Mockery::mock(\Starter\ServerDocumentation\Models\DocumentVersion::class);
+        $user = Mockery::mock(User::class);
+        $version = Mockery::mock(DocumentVersion::class);
 
         expect($policy->delete($user, $version))->toBeFalse();
     });

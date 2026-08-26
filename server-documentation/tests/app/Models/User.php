@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Starter\ServerDocumentation\Database\Factories\UserFactory;
 
 class User extends Model
 {
@@ -18,7 +19,7 @@ class User extends Model
 
     public static function factory()
     {
-        return \Starter\ServerDocumentation\Database\Factories\UserFactory::new();
+        return UserFactory::new();
     }
 
     public function roles()

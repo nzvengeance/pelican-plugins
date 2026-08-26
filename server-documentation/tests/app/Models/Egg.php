@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Starter\ServerDocumentation\Database\Factories\EggFactory;
 
 class Egg extends Model
@@ -14,18 +17,18 @@ class Egg extends Model
         return $this->table;
     }
 
-    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null): BelongsToMany
     {
-        return new \Illuminate\Database\Eloquent\Relations\BelongsToMany((new $related)->newQuery(), $this, $table, $foreignPivotKey, $relatedPivotKey, $parentKey, $relatedKey, $relation);
+        return new BelongsToMany((new $related)->newQuery(), $this, $table, $foreignPivotKey, $relatedPivotKey, $parentKey, $relatedKey, $relation);
     }
 
     public function newQuery()
     {
-        return new class extends \Illuminate\Database\Eloquent\Builder
+        return new class extends Builder
         {
             public function __construct()
             {
-                parent::__construct(new \Illuminate\Database\Query\Builder(new \Illuminate\Database\Connection(fn () => null)));
+                parent::__construct(new \Illuminate\Database\Query\Builder(new Connection(fn () => null)));
             }
 
             public function whereHas($relation, ?\Closure $callback = null, $operator = '>=', $count = 1)
