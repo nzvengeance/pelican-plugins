@@ -1,6 +1,6 @@
 # Pelican Panel Plugins
 
-A collection of plugins for [Pelican Panel](https://github.com/pelican-dev/panel).
+A collection of plugins for [Pelican Panel](https://github.com/pelican/panel).
 
 ## Available Plugins
 

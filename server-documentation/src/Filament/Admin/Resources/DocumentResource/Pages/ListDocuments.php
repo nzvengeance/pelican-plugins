@@ -70,7 +70,7 @@ class ListDocuments extends ListRecords
                 ->label(trans('server-documentation::strings.actions.import_json'))
                 ->icon('tabler-file-import')
                 ->color('gray')
-                ->form([
+                ->schema([
                     FileUpload::make('json_file')
                         ->label(trans('server-documentation::strings.import.json_file_label'))
                         ->helperText(trans('server-documentation::strings.import.json_file_helper'))
@@ -90,7 +90,7 @@ class ListDocuments extends ListRecords
                 ->label(trans('server-documentation::strings.actions.import'))
                 ->icon('tabler-upload')
                 ->color('gray')
-                ->form([
+                ->schema([
                     FileUpload::make('markdown_file')
                         ->label(trans('server-documentation::strings.import.file_label'))
                         ->helperText(trans('server-documentation::strings.import.file_helper')." (max {$maxFileSize}KB)")

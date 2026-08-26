@@ -53,7 +53,7 @@ class DocumentsRelationManager extends RelationManager
             ->headerActions([
                 AttachAction::make()
                     ->preloadRecordSelect()
-                    ->form(fn (AttachAction $action): array => [
+                    ->schema(fn (AttachAction $action): array => [
                         $action->getRecordSelect(),
                         TextInput::make('sort_order')
                             ->label(trans('server-documentation::strings.document.sort_order'))

@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^8.2"
+        "php": "^8.3"
     },
     "autoload": {
         "psr-4": {
@@ -22,13 +22,6 @@
             "Tests\\": "tests/",
             "App\\": "tests/app/",
             "Starter\\ServerDocumentation\\Database\\Factories\\": "tests/database/factories/"
-        }
-    },
-    "extra": {
-        "pelican": {
-            "providers": [
-                "Starter\\ServerDocumentation\\Providers\\ServerDocumentationServiceProvider"
-            ]
         }
     },
     "require-dev": {

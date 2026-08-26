@@ -2,11 +2,17 @@
 
 namespace App\Filament\Admin\Resources\Servers;
 
+/**
+ * Test double for Pelican's ServerResource (App\Traits\Filament\CanCustomizeRelations).
+ * Records what plugins register so provider wiring can be asserted.
+ */
 class ServerResource
 {
-    public static function registerCustomRelations($manager): void
+    /** @var array<int, class-string> */
+    public static array $customRelations = [];
+
+    public static function registerCustomRelations(string ...$customRelations): void
     {
-        // This is a mock method for testing purposes.
-        // In a real Filament application, this would register a relation manager.
+        static::$customRelations = array_merge(static::$customRelations, $customRelations);
     }
 }

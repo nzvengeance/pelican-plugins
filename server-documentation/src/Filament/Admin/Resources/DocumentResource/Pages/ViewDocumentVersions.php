@@ -90,7 +90,7 @@ class ViewDocumentVersions extends Page implements HasTable
                     ->sortable(),
             ])
             ->defaultSort('version_number', 'desc')
-            ->actions([
+            ->recordActions([
                 Action::make('preview')
                     ->label(trans('server-documentation::strings.versions.preview'))
                     ->icon('tabler-eye')

@@ -9,9 +9,9 @@
         init() {
             this.loadHighlightJs();
 
-            // Re-highlight after any Livewire update
-            Livewire.hook('commit', ({ succeed }) => {
-                succeed(() => {
+            // Re-highlight after any Livewire update (Livewire 4 API)
+            Livewire.interceptMessage(({ onSuccess }) => {
+                onSuccess(() => {
                     this.$nextTick(() => this.highlight());
                 });
             });
