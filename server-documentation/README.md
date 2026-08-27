@@ -6,7 +6,7 @@ A documentation management plugin for [Pelican Panel](https://pelican.dev) that 
 
 ### Download
 
-[![Download Latest Release](https://img.shields.io/github/v/release/gavinmcfall/pelican-plugins?label=Download&style=for-the-badge&color=blue)](https://github.com/gavinmcfall/pelican-plugins/releases/latest/download/server-documentation.zip)
+[![Download Latest Release](https://img.shields.io/github/v/release/nzvengeance/pelican-plugins?label=Download&style=for-the-badge&color=blue)](https://github.com/nzvengeance/pelican-plugins/releases/latest/download/server-documentation.zip)
 
 ### Requirements
 - Pelican Panel v1.0.0-beta34 or newer (Laravel 13 / Filament 5)
@@ -53,7 +53,7 @@ The plugin publishes an `update_url`, so Pelican checks for new releases on its 
 
 Uploading a plugin with the same id replaces the installed copy in place (Pelican keeps a rollback until the new files are in position).
 
-1. Download `server-documentation.zip` from the [latest release](https://github.com/gavinmcfall/pelican-plugins/releases/latest)
+1. Download `server-documentation.zip` from the [latest release](https://github.com/nzvengeance/pelican-plugins/releases/latest)
 2. Go to **Admin → Plugins → Import** and upload it
 3. Click **Install** if prompted so new migrations run
 
@@ -64,7 +64,7 @@ Uploading a plugin with the same id replaces the installed copy in place (Pelica
 cd /var/www/html/plugins
 
 # 2. Download and extract new version
-wget https://github.com/gavinmcfall/pelican-plugins/releases/latest/download/server-documentation.zip
+wget https://github.com/nzvengeance/pelican-plugins/releases/latest/download/server-documentation.zip
 unzip -o server-documentation.zip
 rm server-documentation.zip
 
