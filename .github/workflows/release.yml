@@ -17,7 +17,16 @@ jobs:
 
       - name: Create plugin zip
         run: |
-          zip -r server-documentation.zip server-documentation
+          # Ship only what the panel needs: no screenshots, tests or dev tooling
+          zip -r server-documentation.zip server-documentation \
+            -x "server-documentation/docs/*" \
+               "server-documentation/tests/*" \
+               "server-documentation/vendor/*" \
+               "server-documentation/phpunit.xml" \
+               "server-documentation/pint.json" \
+               "server-documentation/composer.lock" \
+               "server-documentation/.gitignore"
+          unzip -l server-documentation.zip | tail -1
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
