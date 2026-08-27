@@ -11,7 +11,7 @@ A collection of plugins for [Pelican Panel](https://github.com/pelican/panel).
 ## Installation
 
 ### Option 1: Download from Releases (Recommended)
-1. Go to the [Releases](https://github.com/gavinmcfall/pelican-plugins/releases) page
+1. Go to the [Releases](https://github.com/nzvengeance/pelican-plugins/releases) page
 2. Download the `server-documentation.zip` from the latest release
 3. In Pelican Panel: **Admin → Plugins → Upload** and select the zip file
 
