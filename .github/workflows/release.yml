@@ -17,15 +17,15 @@ jobs:
 
       - name: Create plugin zip
         run: |
-          # Ship only what the panel needs: no screenshots, tests or dev tooling
-          zip -r server-documentation.zip server-documentation \
-            -x "server-documentation/docs/*" \
-               "server-documentation/tests/*" \
-               "server-documentation/vendor/*" \
-               "server-documentation/phpunit.xml" \
-               "server-documentation/pint.json" \
-               "server-documentation/composer.lock" \
-               "server-documentation/.gitignore"
+          # Ship only what the panel needs: no screenshots, tests or dev tooling.
+          # The zip's top-level folder must be the plugin id, not the repo name.
+          mkdir -p build/server-documentation
+          rsync -a ./ build/server-documentation/ \
+            --exclude=/.git --exclude=/.github --exclude=/.claude --exclude=/build \
+            --exclude=/docs --exclude=/tests --exclude=/vendor \
+            --exclude=/phpunit.xml --exclude=/pint.json --exclude=/composer.lock \
+            --exclude=/.gitignore --exclude=/update.json
+          (cd build && zip -r ../server-documentation.zip server-documentation)
           unzip -l server-documentation.zip | tail -1
 
       - name: Create Release
