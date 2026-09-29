@@ -22,10 +22,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        cd server-documentation
         composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Execute Tests
       run: |
-        cd server-documentation
         ./vendor/bin/pest
